@@ -1,40 +1,53 @@
-import { createElement } from "react";
-import Counter1 from "./components/Counter1";
-import Counter2 from "./components/Counter2";
-import Counter3 from "./components/Counter3";
-import Counter4 from "./components/Counter4";
-import Counter5 from "./components/Counter5";
-import { Count1Provider } from "./hooks/useCount1";
-import { Count2Provider } from "./hooks/useCount2";
-import { Count3Provider } from "./hooks/useCount3";
-import { Count4Provider } from "./hooks/useCount4";
-import { Count5Provider } from "./hooks/useCount5";
+import { useEffect, useState } from "react";
+let count = 0;
+const setStateFunctions = new Set<(count: number) => void>();
+const Component1 = () => {
+  const [state, setState] = useState(count);
+  useEffect(() => {
+    setStateFunctions.add(setState);
+    return () => {
+      setStateFunctions.delete(setState);
+    };
+  }, []);
+  const inc = () => {
+    count += 1;
+    setStateFunctions.forEach((fn) => {
+      fn(count);
+    });
+  };
+  return (
+    <div>
+      {state} <button onClick={inc}>+1</button>
+    </div>
+  );
+};
 
-const Parent = () => (
-  <div>
-    <Counter1 />
-    <Counter1 />
-    <Counter2 />
-    <Counter2 />
-    <Counter3 />
-    <Counter3 />
-    <Counter4 />
-    <Counter4 />
-    <Counter5 />
-    <Counter5 />
-  </div>
-);
+const Component2 = () => {
+  const [state, setState] = useState(count);
+  useEffect(() => {
+    setStateFunctions.add(setState);
+    return () => {
+      setStateFunctions.delete(setState);
+    };
+  }, []);
+  const inc2 = () => {
+    count += 2;
+    setStateFunctions.forEach((fn) => {
+      fn(count);
+    });
+  };
+  return (
+    <div>
+      {state} <button onClick={inc2}>+2</button>
+    </div>
+  );
+};
 const App = () => {
-  const providers = [
-    [Count1Provider, { initialValue: 10 }],
-    [Count2Provider, { initialValue: 20 }],
-    [Count3Provider, { initialValue: 30 }],
-    [Count4Provider, { initialValue: 40 }],
-    [Count5Provider, { initialValue: 50 }],
-  ] as const;
-  return providers.reduceRight(
-    (children, [Component, props]) => createElement(Component, props, children),
-    <Parent />
+  return (
+    <>
+      <Component1 />
+      <Component2 />
+    </>
   );
 };
 export default App;
