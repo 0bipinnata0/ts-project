@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import Counter1 from "./components/Counter1";
 import Counter2 from "./components/Counter2";
 import Counter3 from "./components/Counter3";
@@ -23,18 +24,17 @@ const Parent = () => (
     <Counter5 />
   </div>
 );
-const App = () => (
-  <Count1Provider initialValue={11}>
-    <Count2Provider>
-      <Count3Provider initialValue={33}>
-        <Count4Provider initialValue={44}>
-          <Count5Provider initialValue={55}>
-            <Parent />
-          </Count5Provider>
-        </Count4Provider>
-      </Count3Provider>
-    </Count2Provider>
-  </Count1Provider>
-);
-
+const App = () => {
+  const providers = [
+    [Count1Provider, { initialValue: 10 }],
+    [Count2Provider, { initialValue: 20 }],
+    [Count3Provider, { initialValue: 30 }],
+    [Count4Provider, { initialValue: 40 }],
+    [Count5Provider, { initialValue: 50 }],
+  ] as const;
+  return providers.reduceRight(
+    (children, [Component, props]) => createElement(Component, props, children),
+    <Parent />
+  );
+};
 export default App;
