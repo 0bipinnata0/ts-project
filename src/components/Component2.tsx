@@ -1,17 +1,21 @@
-import useStore from "../hooks/useStore";
+import useRenderCount from "../hooks/useRenderCount";
+import useStoreSelector from "../hooks/useStoreSelector";
 import store from "../store";
 
+const selectCount2 = (state: ReturnType<typeof store.getState>) => state.count2;
+
 const Component2 = () => {
-  const [state, setState] = useStore(store);
-  const inc2 = () => {
-    setState((prev) => ({
+  const count = useRenderCount();
+  const state = useStoreSelector(store, selectCount2);
+  const inc = () => {
+    store.setState((prev) => ({
       ...prev,
-      count: prev.count + 2,
+      count2: prev.count2 + 1,
     }));
   };
   return (
     <div>
-      {state.count} <button onClick={inc2}>+2</button>
+      render:{count} --- count2: {state} <button onClick={inc}>+1</button>
     </div>
   );
 };
