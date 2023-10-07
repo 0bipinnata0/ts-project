@@ -1,4 +1,4 @@
-import { useCount1 } from "../hooks/useCount1";
+import useCount1 from "../hooks/useCount1";
 import useRenderCount from "../hooks/useRenderCount";
 
 const Counter1 = () => {

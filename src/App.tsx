@@ -1,7 +1,7 @@
 import Counter1 from "./components/Counter1";
 import Counter2 from "./components/Counter2";
-import Count1Provider from "./provider/Count1Provider";
-import Count2Provider from "./provider/Count2Provider";
+import { Count1Provider } from "./hooks/useCount1";
+import { Count2Provider } from "./hooks/useCount2";
 
 const Parent = () => (
   <div>
@@ -11,7 +11,6 @@ const Parent = () => (
     <Counter2 />
   </div>
 );
-
 const App = () => (
   <Count1Provider>
     <Count2Provider>
@@ -19,4 +18,5 @@ const App = () => (
     </Count2Provider>
   </Count1Provider>
 );
+
 export default App;

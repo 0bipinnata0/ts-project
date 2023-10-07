@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import Count1Context from "../context/Count1Context";
+import createStateContext from "../utils/createStateContext";
+import useNumberState from "./useNumberState";
 
-export const useCount1 = () => {
-  const value = useContext(Count1Context);
-  if (value === null) throw new Error("Provider missing");
-  return value;
-};
+const [Count1Provider, useCount1] = createStateContext(useNumberState);
+export { Count1Provider };
+
+export default useCount1;
