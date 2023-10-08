@@ -1,13 +1,21 @@
-import Component1 from "./components/Component1";
-import Component2 from "./components/Component2";
+import Component from "./components/Component";
+import { StoreProvider } from "./storeContext";
 
 const App = () => {
   return (
     <>
-      <Component1 />
-      <Component1 />
-      <Component2 />
-      <Component2 />
+      <h1>Using default store</h1>
+      <Component />
+      <Component />
+      <StoreProvider initialState={{ count: 10 }}>
+        <h1>Using store provider</h1>
+        <Component />
+        <Component />
+        <StoreProvider initialState={{ count: 20 }}>
+          <h1>Using inner store provider</h1> <Component />
+          <Component />
+        </StoreProvider>
+      </StoreProvider>
     </>
   );
 };
